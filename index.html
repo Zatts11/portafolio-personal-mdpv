@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matías Durán | Portafolio Personal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230e1116'/%3E%3Crect x='30' y='30' width='40' height='40' rx='6' fill='%233b82f6'/%3E%3Cg stroke='%233b82f6' stroke-width='4'%3E%3Cline x1='50' y1='5' x2='50' y2='30'/%3E%3Cline x1='50' y1='70' x2='50' y2='95'/%3E%3Cline x1='5' y1='50' x2='30' y2='50'/%3E%3Cline x1='70' y1='50' x2='95' y2='50'/%3E%3C/g%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #0e1116;
+      --bg-alt: #0b0e13;
+      --card: #161b22;
+      --text: #e6edf3;
+      --muted: #9ba3af;
+      --accent: #3b82f6;
+      --border: #273043;
+    }
+
+    body.light {
+      --bg: #f4f6f9;
+      --bg-alt: #ffffff;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #2563eb;
+      --border: #e5e7eb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      cursor: none;
+    }
+
+    body {
+      background: linear-gradient(180deg, var(--bg), var(--bg-alt));
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ---------- HERO ANIMADO ---------- */
+    header {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .bg-animation {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(59,130,246,0.18), transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(37,99,235,0.15), transparent 45%),
+        linear-gradient(120deg, rgba(15,23,42,0.9), rgba(2,6,23,0.95));
+      background-size: 200% 200%;
+      animation: gradientFlow 18s ease infinite;
+      z-index: 0;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes moveBg {
+      from { transform: translateY(0); }
+      to { transform: translateY(-80px); }
+    }
+
+    header .content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    header p {
+      max-width: 650px;
+      margin: 1.5rem auto;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover { opacity: 0.85; }
+
+    /* ---------- TOGGLE TEMA ---------- */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.85rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 4rem 2rem;
+    }
+
+    section h3 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 1.5rem;
+      justify-items: center;
+    }
+
+    .tech {
+      width: 80px;
+      height: 80px;
+      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--accent);
+      position: relative;
+      transition: transform 0.3s ease, border 0.3s ease;
+    }
+
+    .tech:hover {
+      transform: translateY(-6px) scale(1.05);
+      border-color: var(--accent);
+    }
+
+    .tech::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: -38px;
+      background: var(--card);
+      color: var(--text);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: 0.25s ease;
+      border: 1px solid var(--border);
+    }
+
+    .tech:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, border 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ---------- NAVBAR STICKY ---------- */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 12px;
+      background: rgba(22,27,34,0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.4rem 1.2rem;
+      z-index: 100;
+    }
+
+    body.light .top-nav {
+      background: rgba(255,255,255,0.75);
+    }
+
+    .top-nav ul {
+      display: flex;
+      gap: 1.2rem;
+      list-style: none;
+    }
+
+    .top-nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .top-nav a:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ---------- CURSOR PERSONALIZADO ---------- */
+    .cursor {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-ring {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 998;
+      transform: translate(-50%, -50%);
+      transition: 0.15s ease;
+    }
+
+    .trail {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.6;
+      animation: fade 0.6s linear forwards;
+    }
+
+        .icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0.8rem;
+    fill: var(--accent);
+    }
+
+    .card h4 {
+    margin-bottom: 0.5rem;
+    }
+
+
+    @keyframes fade {
+      to { transform: scale(0); opacity: 0; }
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <ul>
+    <li><a href="#perfil">Perfil</a></li>
+    <li><a href="#stack">Aptitudes</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#formacion">Educación</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">🌙</button>
+
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+<header>
+  <div class="bg-animation"></div>
+  <div class="content">
+    <h1>Matías Vicente Durán</h1>
+    <h2>Técnico en Programación · Desarrollo Web · Soporte IT · Ciberseguridad</h2>
+    <p>
+      Técnico en Programación con enfoque en desarrollo web, soporte técnico,
+      mantención de equipos informaticos y fundamentos de ciberseguridad aplicada.
+    </p>
+    <a href="#contacto" class="btn">Contactar</a>
+  </div>
+</header>
+
+<section id="perfil">
+  <h3>Perfil Profesional</h3>
+  <p>
+    Técnico en Programación con enfoque en desarrollo web, desarrollo de software,
+    soporte técnico y mantención de equipos computacionales. Poseo conocimientos en ciberseguridad aplicada
+    y una orientación clara a la resolución de problemas, la mejora continua y la implementación de
+    soluciones eficientes y seguras.
+  </p>
+</section>
+
+<section id="lenguajes">
+  <h3>Lenguajes y Tecnologías</h3>
+
+  <div class="grid">
+
+    <div class="card">
+      <h4>Desarrollo Web</h4>
+      <p>
+        HTML5 (semántica y accesibilidad), CSS3 (responsive, animaciones),
+        JavaScript (DOM, eventos, lógica frontend), fundamentos de PHP y
+        consumo de APIs básicas.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Programación General</h4>
+      <p>
+        Lógica de programación, estructuras de control, funciones, manejo
+        de variables y resolución de problemas en Python, C y C#.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Programación Orientada a Objetos (POO)</h4>
+      <p>
+        Clases, objetos, encapsulamiento, herencia y polimorfismo utilizando
+        Java, C# y Python a nivel académico y práctico.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Lenguajes Visuales y Entornos Gráficos</h4>
+      <p>
+        Desarrollo de aplicaciones simples mediante programación visual
+        con Visual Basic y uso de interfaces gráficas.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Bases de Datos</h4>
+      <p>
+        Modelado básico de datos, consultas SQL, gestión de bases de datos
+        relacionales y uso de MySQL para proyectos académicos.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Sistemas Operativos</h4>
+      <p>
+        Uso, instalación y configuración de sistemas Windows y Linux,
+        soporte técnico, administración básica y uso de terminal.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Ciberseguridad (Fundamentos)</h4>
+      <p>
+        Principios de seguridad informática, OWASP Top 10, nociones de
+        análisis de riesgos, seguridad web y buenas prácticas defensivas.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Videojuegos y Desarrollo Interactivo</h4>
+      <p>
+        Uso de motores de videojuegos como Godot y Unreal Engine,
+        programación de gameplay y lógica básica de juegos.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="stack">
+  <h3>Aptitudes, Lenguajes y Herramientas</h3>
+
+  <div class="grid">
+
+    <!-- DESARROLLO WEB -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M4 4h16v16H4zM6 6v12h12V6z"/>
+      </svg>
+      <h4>Desarrollo Web</h4>
+      <p>
+        HTML5, CSS3, JavaScript. Diseño responsive, semántica,
+        animaciones y lógica frontend.
+      </p>
+    </div>
+
+    <!-- PROGRAMACIÓN GENERAL -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M8 5l-6 7 6 7M16 5l6 7-6 7"/>
+      </svg>
+      <h4>Programación General</h4>
+      <p>
+        Lógica de programación, estructuras de control,
+        funciones y resolución de problemas (Python, C, C#).
+      </p>
+    </div>
+
+    <!-- PROGRAMACIÓN ORIENTADA A OBJETOS -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z"/>
+      </svg>
+      <h4>Programación Orientada a Objetos</h4>
+      <p>
+        Clases, objetos, encapsulamiento y herencia
+        con Java, C# y Python.
+      </p>
+    </div>
+
+    <!-- LENGUAJES VISUALES -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h16v7H4z"/>
+      </svg>
+      <h4>Lenguajes Visuales</h4>
+      <p>
+        Desarrollo de aplicaciones simples
+        mediante Visual Basic y entornos gráficos.
+      </p>
+    </div>
+
+    <!-- BASES DE DATOS -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M12 2C7 2 3 3.8 3 6v12c0 2.2 4 4 9 4s9-1.8 9-4V6c0-2.2-4-4-9-4z"/>
+      </svg>
+      <h4>Bases de Datos</h4>
+      <p>
+        SQL, modelado básico de datos
+        y uso de MySQL en proyectos académicos.
+      </p>
+    </div>
+
+    <!-- SISTEMAS OPERATIVOS -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M3 4h18v12H3zM7 20h10"/>
+      </svg>
+      <h4>Sistemas Operativos</h4>
+      <p>
+        Instalación, configuración y soporte
+        en Windows y Linux.
+      </p>
+    </div>
+
+    <!-- CIBERSEGURIDAD -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M12 2l8 4v6c0 5-3.4 9.7-8 10-4.6-.3-8-5-8-10V6z"/>
+      </svg>
+      <h4>Ciberseguridad</h4>
+      <p>
+        OWASP Top 10, seguridad web,
+        buenas prácticas defensivas, análisis basico,etc.
+      </p>
+    </div>
+
+    <!-- HERRAMIENTAS -->
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M22 19l-6-6a6 6 0 1 0-3 3l6 6z"/>
+      </svg>
+      <h4>Herramientas y Soporte IT</h4>
+      <p>
+        Git/GitHub, Linux, Windows, Bash,
+        PowerShell, soporte técnico y mantenimiento.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section id="proyectos">
+  <h3>Proyectos</h3>
+  <div class="grid">
+    <div class="card">
+      <h4>Portafolio Web Profesional</h4>
+      <p>Sitio web personal desarrollado con HTML, CSS y JavaScript, con diseño moderno,
+      animaciones y modo claro/oscuro.</p>
+    </div>
+    <div class="card">
+      <h4>Ejercicios de Programación</h4>
+      <p>Proyectos académicos (Cursos,Universidades,etc) en Lenguajes de programacion, Base de datos
+      y resolución de problemas con ciberseguridad.</p>
+    </div>
+    <div class="card">
+      <h4>Soporte Técnico</h4>
+      <p>Configuración, mantenimiento y optimización de equipos computacionales en entornos
+      Windows y Linux.</p>
+    </div>
+    <div class="card">
+      <h4>Videojuego Primera persona</h4>
+      <p>Contribuidor en la optimización de sistemas de gameplay en Unreal Engine 5, analizando Blueprints existentes y migrando lógica crítica a C++ cuando fue necesario. (Mas Informacion en mi Linkedin)</p>
+    </div>
+  </div>
+</section>
+
+<section id="formacion">
+  <h3>Formación</h3>
+  <ul>
+    <li>Técnico en Programación</li>
+    <li>Ciberseguridad</li>
+    <li>Aprendizaje continuo en desarrollo web y ciberseguridad</li>
+    <li>(Certificados y Mas informacion en mi Linkedin)</li>
+  </ul>
+</section>
+
+<section id="contacto">
+  <h3>Contacto</h3>
+  <p>Email: <strong>matias.duran.vicente@gmail.com</strong></p>
+  <p>Linkedin: <strong>www.linkedin.com/in/matias-durán-8b5b21363</strong></p>
+  <p>Ubicación: Ancud, Chiloé, Chile</p>
+  <p>Disponibilidad para trabajo remoto</p>
+</section>
+
+<footer>
+  © <span id="year"></span> Matías Vicente Durán · · Portafolio personal · Todos los derechos reservados
+</footer>
+
+<script>
+  const toggleBtn = document.getElementById('themeToggle');
+  toggleBtn.addEventListener('click', toggleTheme);
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll suave al hacer click en el menú
+  document.querySelectorAll('.top-nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  function toggleTheme() {
+    document.body.classList.toggle('light');
+    const btn = document.getElementById('themeToggle');
+    if (document.body.classList.contains('light')) {
+      btn.textContent = '☀️';
+    } else {
+      btn.textContent = '🌙';
+    }
+  }
+
+  const cursor = document.querySelector('.cursor');
+  const ring = document.querySelector('.cursor-ring');
+
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = ring.style.left = e.clientX + 'px';
+    cursor.style.top = ring.style.top = e.clientY + 'px';
+
+    const trail = document.createElement('div');
+    trail.className = 'trail';
+    trail.style.left = e.clientX + 'px';
+    trail.style.top = e.clientY + 'px';
+    document.body.appendChild(trail);
+
+    setTimeout(() => trail.remove(), 600);
+  });
+</script>
+</body>
+</html>
